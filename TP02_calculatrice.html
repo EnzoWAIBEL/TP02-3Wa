@@ -1,0 +1,125 @@
+<!-- # 02 sujet Challenge Calculatrice
+
+Vous allez faire **une petite calculatrice** avec les notions vues en cours comme useState, useReducer (voir le cours si vous le souhaitez). Et d'autre(s) Hook(s) éventuellement.
+
+Faite cet exercice dans un fichier unique.
+
+🚀 Créez deux champs de saisie permettant de définir deux nombres pour la calculatrice. 
+
+Puis créez les boutons suivants 
+
+1. Un bouton `+` pour effectuer l'addition.
+
+2. Un bouton `x` pour faire la multiplication.
+
+3. Un bouton `reset` pour effacer le résultat.
+
+4. Gérez les messages d'erreur.
+
+5. En utilisant le useEffect comptez le nombre d'opérations effectuées et affichez un message au bout de 10 calculs fait par l'utilisateur, du genre "bravo" !
+
+🐊 Indications pour récupérez la valeur d'un champ texte dans le rendu, créez le state **number** avec sa fonction de mise à jour setNumber, pensez à tout maîtriser avec React lors de la récupération des données et de l'affichage de celles-ci dans l'élément HTML (contrôle des éléments input).
+
+Exemple de contrôle de champ de saisie :
+
+```js
+<p>
+  <input
+    type="text"
+    name="number"
+    value={number}
+    onChange={(e) => setNumber(e.target.value)}
+  />
+</p>
+``` -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste nombres</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        .heading {
+            color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        
+        const App = () => {
+            const [numOne, setNumOne] = React.useState('');
+            const [numTwo, setNumTwo] = React.useState('');
+            const [result, setResult] = React.useState(null);
+            const [count, setCount] = React.useState(0);
+
+            const handleNumOneChange = e => {
+                const { value } = e.target;
+                setNumOne(value);
+            };
+
+            const handleNumTwoChange = e => {
+                const { value } = e.target;
+                setNumTwo(value);
+            };
+
+            const add = (a, b) => {
+                let result = parseInt(a) + parseInt(b);
+                if (Number.isNaN(result)) {
+                    result = "Erreur"
+                }
+                setResult(result);
+            };
+
+            const multiply = (a, b) => {
+                let result = parseInt(a) * parseInt(b);
+                if (Number.isNaN(result)) {
+                    result = "Erreur"
+                }
+                setResult(result);
+            };
+
+            const reset = () => {
+                let result = 0;
+                setResult(result);
+            };
+
+            const countTen = () => {
+                if (count == 10) {
+                    window.alert("GG!")
+                }
+            }
+
+            React.useEffect(() => {
+                countTen();
+            });
+
+            return (
+                <div>
+                    <p><input type="text" onChange={handleNumOneChange} value={numOne} name="phrase" /></p>
+                    <p><input type="text" onChange={handleNumTwoChange} value={numTwo} name="phrase" /></p>
+                    <p><button onClick={() => { multiply(numOne, numTwo); setCount(count + 1); }}>*</button>
+                    <button onClick={() => { add(numOne, numTwo); setCount(count + 1); }}>+</button></p>
+                    <p>Result: {result}</p>
+                    <p><button onClick={() => reset()}>reset</button></p>
+                </div>
+            );
+        };
+
+        ReactDOM.render(
+            <App />, 
+            document.getElementById('root')
+        );
+
+    </script>
+</body>
+
+</html>
